@@ -31,21 +31,26 @@ class StreamManager {
   set channel(WebRtcClientChannel channel) {
     _errorHandler?.cancel();
     _channel = channel;
-    _channel.rtcPeerConnection.onTrack = (event) {
-      _errorHandler?.cancel(); // Cancel the error handler -- clearly we're connected if we're receiving this event
+    (_channel.baseChannel as WebRtcBaseChannel).rtcPeerConnection.onTrack =
+        (event) {
+      _errorHandler
+          ?.cancel(); // Cancel the error handler -- clearly we're connected if we're receiving this event
       for (final stream in event.streams) {
         _addStream(stream);
       }
     };
 
-    _channel.rtcPeerConnection.onConnectionState = (state) {
+    (_channel.baseChannel as WebRtcBaseChannel)
+        .rtcPeerConnection
+        .onConnectionState = (state) {
       _errorHandler?.cancel();
       if (state == RTCPeerConnectionState.RTCPeerConnectionStateFailed ||
           state == RTCPeerConnectionState.RTCPeerConnectionStateDisconnected) {
         _errorHandler = Stream.periodic(const Duration(seconds: 1)).listen((_) {
           for (final client in _clients.values) {
             if (!client._streamController.isClosed) {
-              client._streamController.addError(Exception('PeerConnection error'));
+              client._streamController
+                  .addError(Exception('PeerConnection error'));
             }
           }
         });
@@ -79,10 +84,13 @@ class StreamManager {
     _clients[sanitizedName] = client;
 
     if (_streams.containsKey(sanitizedName)) {
-      _clients[sanitizedName]!._internalStreamController.add(_streams[sanitizedName]!);
+      _clients[sanitizedName]!
+          ._internalStreamController
+          .add(_streams[sanitizedName]!);
     } else {
       final fut = _add(sanitizedName);
-      fut.onError((error, stackTrace) => client._streamController.addError(error ?? Exception('Could not add stream named $name')));
+      fut.onError((error, stackTrace) => client._streamController
+          .addError(error ?? Exception('Could not add stream named $name')));
     }
     return client;
   }
@@ -142,10 +150,12 @@ class StreamClient {
   late StreamSubscription<MediaStream> _internalListener;
 
   // ignore: close_sinks
-  final StreamController<MediaStream> _internalStreamController = StreamController<MediaStream>.broadcast();
+  final StreamController<MediaStream> _internalStreamController =
+      StreamController<MediaStream>.broadcast();
 
   // ignore: close_sinks
-  final StreamController<MediaStream?> _streamController = StreamController<MediaStream?>.broadcast();
+  final StreamController<MediaStream?> _streamController =
+      StreamController<MediaStream?>.broadcast();
 
   StreamClient(this.name, this._open, this._close) {
     _internalListener = _internalStreamController.stream.listen((event) {

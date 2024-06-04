@@ -11,7 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_webrtc: ^0.10.3
+  # TODO(erd): undo
   grpc: ^3.2.3
+  # grpc:
+  #   path: /Users/eric/Downloads/grpc-dart
   protobuf: ^3.0.0
   image: ^4.0.16
   logger: ^2.0.1
@@ -20,6 +23,9 @@ dependencies:
   collection: ^1.17.1
   async: ^2.11.0
   bonsoir: ^5.1.8
+  # TODO(erd): fix up
+  ble:
+    path: /Users/eric/viam/bluetooth/flutter-ble
 
 dev_dependencies:
   flutter_test:

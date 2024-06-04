@@ -34,17 +34,29 @@ export 'src/components/servo/servo.dart';
 
 /// Necessary Protos
 export 'src/gen/common/v1/common.pb.dart'
-    show ResourceName, Pose, Orientation, PoseInFrame, Vector3, GeoPoint, DoCommandRequest, DoCommandResponse;
+    show
+        ResourceName,
+        Pose,
+        Orientation,
+        PoseInFrame,
+        Vector3,
+        GeoPoint,
+        DoCommandRequest,
+        DoCommandResponse;
 export 'src/gen/provisioning/v1/provisioning.pb.dart';
 
 /// Media & Streams
 export 'src/media/image.dart';
 export 'src/media/stream/client.dart' hide StreamManager;
+// TODO(erd): undo
+export 'src/renameme.dart';
 
 /// Robot, Resource, and Registry
 export 'src/resource/base.dart';
 export 'src/resource/registry.dart';
 export 'src/robot/client.dart';
+// TODO(erd): undo
+export 'src/rpc/bluetooth/bluetooth_client.dart';
 
 /// RPC
 export 'src/rpc/dial.dart';
